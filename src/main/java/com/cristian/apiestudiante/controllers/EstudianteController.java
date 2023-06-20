@@ -3,10 +3,12 @@ package com.cristian.apiestudiante.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import com.cristian.apiestudiante.services.EstudianteService;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EstudianteController {
 
 	@Autowired
@@ -26,8 +29,7 @@ public class EstudianteController {
 	public List<Estudiante> estudiantes() {
 		return estudianteService.estudiantes();
 	}
-
-	@RequestMapping(value = "crearestudiante", method = RequestMethod.POST)
+	@RequestMapping(value = "/crearestudiante", method = RequestMethod.POST)
 	public Estudiante crearEstudiante(@RequestBody Estudiante estudiante) {
 		return estudianteService.crearEstudiante(estudiante);
 	}
@@ -57,11 +59,14 @@ public class EstudianteController {
 	@RequestMapping(value = "actualizarEstudiante/{ID}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> actualizarEstudiante(Long id, @RequestBody Estudiante estudiante) throws ClassNotFoundException{
 		Optional<Estudiante> _estudiante = estudianteService.getEstudiante(id);
-
+		JSONObject resp = new JSONObject();
 		if (!_estudiante.isPresent()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			resp.put("error", "Estudiante no encontrado");
+			return new ResponseEntity<>(resp.toString(),HttpStatus.NOT_FOUND);
 		}
 		estudianteService.actualizarEstudiante(id,estudiante);
-		return new ResponseEntity<>("Se actualizó correctamente el estudiante",HttpStatus.OK);
+		
+		resp.put("mensaje", "Se actualizó correctamente el estudiante");
+		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
 	}
 }

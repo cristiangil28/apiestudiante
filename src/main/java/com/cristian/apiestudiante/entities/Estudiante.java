@@ -1,5 +1,6 @@
 package com.cristian.apiestudiante.entities;
 
+import javax.enterprise.inject.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "estudiante")
+@Model
 public class Estudiante {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
