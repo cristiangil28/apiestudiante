@@ -11,10 +11,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "usuario")
 @Model
-public class Estudiante {
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idestudiante")
+	@Column(name = "idusuario")
 	private Long id;
 	
 	@Column(name="nombre")
@@ -22,12 +22,21 @@ public class Estudiante {
 	
 	@Column(name = "apellidos")
 	private String apellidos;
+	
+	@Column(name = "correo")
+	private String correo;
+	
+	@Column(name = "telefono")
+	private String telefono;
+	
+	@Column(name = "tipo_usuario")
+	private String tipoUsuario;
 
-	public Estudiante() {
+	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Estudiante(Long id, String nombre, String apellidos) {
+	public Usuario(Long id, String nombre, String apellidos) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -57,10 +66,38 @@ public class Estudiante {
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
+	
+	
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(String tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
 
 	@Override
 	public String toString() {
-		return "Estudiante [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", correo=" + correo
+				+ ", telefono=" + telefono + ", tipoUsuario=" + tipoUsuario + "]";
 	}
+
+	
 	
 }

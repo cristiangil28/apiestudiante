@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cristian.apiestudiante.entities.Materia;
-import com.cristian.apiestudiante.repositories.EstudianteRepository;
+import com.cristian.apiestudiante.repositories.UsuarioRepository;
 import com.cristian.apiestudiante.repositories.MateriaRepository;
 
 @Service

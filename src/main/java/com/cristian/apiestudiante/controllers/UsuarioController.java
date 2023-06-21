@@ -14,57 +14,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cristian.apiestudiante.entities.Estudiante;
-import com.cristian.apiestudiante.services.EstudianteService;
+import com.cristian.apiestudiante.entities.Usuario;
+import com.cristian.apiestudiante.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
-public class EstudianteController {
+public class UsuarioController {
 
 	@Autowired
-	EstudianteService estudianteService;
+	UsuarioService usuarioService;
 
 	@RequestMapping(value = "estudiantes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Estudiante> estudiantes() {
-		return estudianteService.estudiantes();
+	public List<Usuario> usuarios() {
+		return usuarioService.usuarios();
 	}
 	@RequestMapping(value = "/crearestudiante", method = RequestMethod.POST)
-	public Estudiante crearEstudiante(@RequestBody Estudiante estudiante) {
-		return estudianteService.crearEstudiante(estudiante);
+	public Usuario crearEstudiante(@RequestBody Usuario usuario) {
+		return usuarioService.crearEstudiante(usuario);
 	}
 
 	@RequestMapping(value = "estudiante/{ID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Estudiante> getEstudiante(Long id) throws ClassNotFoundException {
-		Optional<Estudiante> estudiante = estudianteService.getEstudiante(id);
+	public ResponseEntity<Usuario> getEstudiante(Long id) throws ClassNotFoundException {
+		Optional<Usuario> usuario = usuarioService.getEstudiante(id);
 
-		if (!estudiante.isPresent()) {
+		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(estudiante.get(), HttpStatus.OK);
+		return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "eliminarEstudiante/{ID}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> eliminarEstudiante(Long id) throws ClassNotFoundException {
-		Optional<Estudiante> estudiante = estudianteService.getEstudiante(id);
+		Optional<Usuario> usuario = usuarioService.getEstudiante(id);
 
-		if (!estudiante.isPresent()) {
+		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		estudianteService.eliminarEstudiante(id);
+		usuarioService.eliminarEstudiante(id);
 		return new ResponseEntity<>("Se eliminó correctamente el estudiante",HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "actualizarEstudiante/{ID}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> actualizarEstudiante(Long id, @RequestBody Estudiante estudiante) throws ClassNotFoundException{
-		Optional<Estudiante> _estudiante = estudianteService.getEstudiante(id);
+	public ResponseEntity<String> actualizarEstudiante(Long id, @RequestBody Usuario usuario) throws ClassNotFoundException{
+		Optional<Usuario> _estudiante = usuarioService.getEstudiante(id);
 		JSONObject resp = new JSONObject();
 		if (!_estudiante.isPresent()) {
-			resp.put("error", "Estudiante no encontrado");
+			resp.put("error", "Usuario no encontrado");
 			return new ResponseEntity<>(resp.toString(),HttpStatus.NOT_FOUND);
 		}
-		estudianteService.actualizarEstudiante(id,estudiante);
+		usuarioService.actualizarEstudiante(id,usuario);
 		
 		resp.put("mensaje", "Se actualizó correctamente el estudiante");
 		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
