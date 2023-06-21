@@ -30,8 +30,13 @@ public class UsuarioController {
 		return usuarioService.usuarios();
 	}
 	@RequestMapping(value = "/crearestudiante", method = RequestMethod.POST)
-	public Usuario crearEstudiante(@RequestBody Usuario usuario) {
-		return usuarioService.crearEstudiante(usuario);
+	public ResponseEntity<String> crearEstudiante(@RequestBody Usuario usuario) {
+		Optional<Usuario> _usuario = usuarioService.getEstudianteDocumento(usuario.getDocumento());
+		if(_usuario.isPresent()) {
+			return new ResponseEntity<>("El número de documento ya esta registrado", HttpStatus.OK);
+		}
+		usuarioService.crearEstudiante(usuario);
+		return new ResponseEntity<>("El estudiante se creo con exito", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "estudiante/{ID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

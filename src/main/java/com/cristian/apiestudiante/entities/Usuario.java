@@ -31,6 +31,9 @@ public class Usuario {
 	
 	@Column(name = "tipo_usuario")
 	private String tipoUsuario;
+	
+	@Column(name = "documento", unique = true)
+	private String documento;
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -91,13 +94,18 @@ public class Usuario {
 	public void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+	
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", correo=" + correo
-				+ ", telefono=" + telefono + ", tipoUsuario=" + tipoUsuario + "]";
+				+ ", telefono=" + telefono + ", tipoUsuario=" + tipoUsuario + ", documento=" + documento + "]";
 	}
-
-	
-	
 }

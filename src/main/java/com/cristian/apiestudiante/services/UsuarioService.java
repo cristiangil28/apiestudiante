@@ -27,6 +27,10 @@ public class UsuarioService {
 		return usuarioRepository.findById(id);
 	}
 	
+	public Optional<Usuario> getEstudianteDocumento(String documento){
+		return usuarioRepository.getUsuadioDocumento(documento);
+	}
+	
 	public void eliminarEstudiante(Long id) {
 		usuarioRepository.deleteById(id);
 	}
@@ -38,6 +42,7 @@ public class UsuarioService {
 		_estudiante.setCorreo(usuario.getCorreo());
 		_estudiante.setTelefono(usuario.getTelefono());
 		_estudiante.setTipoUsuario(usuario.getTipoUsuario());
+		_estudiante.setDocumento(usuario.getDocumento());
 		
 		return usuarioRepository.save(_estudiante);
 	}
