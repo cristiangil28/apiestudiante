@@ -32,11 +32,16 @@ public class UsuarioController {
 	@RequestMapping(value = "/crearestudiante", method = RequestMethod.POST)
 	public ResponseEntity<String> crearEstudiante(@RequestBody Usuario usuario) {
 		Optional<Usuario> _usuario = usuarioService.getEstudianteDocumento(usuario.getDocumento());
+		JSONObject resp = new JSONObject();
 		if(_usuario.isPresent()) {
-			return new ResponseEntity<>("El número de documento ya esta registrado", HttpStatus.OK);
+			resp.put("mensaje", "El número de documento ya esta registrado");
+			return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
 		}
+		
+		resp.put("mensaje", "El estudiante se creo con exito");
 		usuarioService.crearEstudiante(usuario);
-		return new ResponseEntity<>("El estudiante se creo con exito", HttpStatus.OK);
+	
+		return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "estudiante/{ID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,12 +58,13 @@ public class UsuarioController {
 	@RequestMapping(value = "eliminarEstudiante/{ID}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> eliminarEstudiante(Long id) throws ClassNotFoundException {
 		Optional<Usuario> usuario = usuarioService.getEstudiante(id);
-
+		JSONObject resp = new JSONObject();
 		if (!usuario.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		usuarioService.eliminarEstudiante(id);
-		return new ResponseEntity<>("Se eliminó correctamente el estudiante",HttpStatus.OK);
+		resp.put("mensaje", "Se eliminó correctamente el estudiante");
+		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "actualizarEstudiante/{ID}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
