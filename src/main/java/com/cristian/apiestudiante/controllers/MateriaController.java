@@ -3,6 +3,7 @@ package com.cristian.apiestudiante.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +31,9 @@ public class MateriaController {
 		return materiaService.materias();
 	}
 	@RequestMapping(value = "/crearmateria", method = RequestMethod.POST)
-	public Materia crearMateria(@RequestBody Materia materia){
-		return materiaService.crearMateria(materia);
+	public ResponseEntity<String> crearMateria(@RequestBody Materia materia) throws ClassNotFoundException{
+		JSONObject resp = new JSONObject();
+		return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "materia/{ID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
