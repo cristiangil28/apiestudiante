@@ -33,6 +33,8 @@ public class MateriaController {
 	@RequestMapping(value = "/crearmateria", method = RequestMethod.POST)
 	public ResponseEntity<String> crearMateria(@RequestBody Materia materia) throws ClassNotFoundException{
 		JSONObject resp = new JSONObject();
+		materiaService.crearMateria(materia);
+		resp.put("mensaje", "Se registro correctamente la materia");
 		return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
 	}
 	
@@ -50,23 +52,25 @@ public class MateriaController {
 	@RequestMapping(value = "/eliminarMateria/{ID}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> eliminarMateria(Long id) throws ClassNotFoundException {
 		Optional<Materia> materia = materiaService.getMateria(id);
-
+		JSONObject resp = new JSONObject();
 		if (!materia.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+		resp.put("mensaje", "Se eliminó correctamente la materia");
 		materiaService.eliminarMateria(id);
-		return new ResponseEntity<>("Se eliminó correctamente la Materia",HttpStatus.OK);
+		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "actualizarMateria/{ID}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> actualizarMateria(Long id, @RequestBody Materia materia) throws ClassNotFoundException {
 		Optional<Materia> _materia  = materiaService.getMateria(id);
-		
+		JSONObject resp = new JSONObject();
 		if(!_materia.isPresent()) {
-			return new ResponseEntity<>("La materia no existe",HttpStatus.NOT_FOUND);
+			resp.put("mensaje", "La materia no existe");
+			return new ResponseEntity<>(resp.toString(),HttpStatus.NOT_FOUND);
 		}
 		materiaService.actualizarMateria(id, materia);
-		return new ResponseEntity<>("Se actualizó correctamente la materia",HttpStatus.OK);
+		resp.put("mensaje", "Se actualizó correctamente la materia");
+		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
 	}
 }
