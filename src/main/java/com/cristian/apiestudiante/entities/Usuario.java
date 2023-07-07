@@ -1,11 +1,19 @@
 package com.cristian.apiestudiante.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.inject.Model;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -34,6 +42,11 @@ public class Usuario {
 	
 	@Column(name = "documento", unique = true)
 	private String documento;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "matricula", joinColumns = { @JoinColumn(name = "idusuario") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_materia") })
+	private List<Materia> materias;
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -46,6 +59,12 @@ public class Usuario {
 		this.apellidos = apellidos;
 	}
 
+	public void addMateria(Materia materia) {
+		if(this.materias == null) {
+			this.materias = new ArrayList<>();
+		}
+		this.materias.add(materia);
+	}
 	public Long getId() {
 		return id;
 	}
@@ -101,6 +120,14 @@ public class Usuario {
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+	
+	public List<Materia> getMaterias() {
+		return materias;
+	}
+
+	public void setMaterias(List<Materia> materias) {
+		this.materias = materias;
 	}
 
 	@Override
