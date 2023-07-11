@@ -1,11 +1,15 @@
 package com.cristian.apiestudiante.entities;
 
+import java.util.List;
+
 import javax.enterprise.inject.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,6 +27,9 @@ public class Materia {
 	@Column(name = "creditos")
 	private int creditos;
 	
+	@ManyToMany(mappedBy = "materias", fetch = FetchType.LAZY)
+	private List<Usuario> estudiantes;
+
 	public Materia() {
 		// TODO Auto-generated constructor stub
 	}
@@ -56,6 +63,14 @@ public class Materia {
 
 	public void setCreditos(int creditos) {
 		this.creditos = creditos;
+	}
+	
+	public List<Usuario> getEstudiantes() {
+		return estudiantes;
+	}
+
+	public void setEstudiantes(List<Usuario> estudiantes) {
+		this.estudiantes = estudiantes;
 	}
 
 	@Override
