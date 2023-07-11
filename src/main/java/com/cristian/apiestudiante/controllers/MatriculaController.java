@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cristian.apiestudiante.entities.Materia;
+import com.cristian.apiestudiante.entities.Matricula;
 import com.cristian.apiestudiante.entities.Usuario;
 import com.cristian.apiestudiante.services.MateriaService;
+import com.cristian.apiestudiante.services.MatriculaService;
 import com.cristian.apiestudiante.services.UsuarioService;
 
 @RestController
@@ -28,9 +30,21 @@ public class MatriculaController {
 	@Autowired
 	MateriaService materiaService;
 	
+	@Autowired
+	MatriculaService matriculaService;
+	
 	@RequestMapping(value = "matricula/{materiaID}/{usuarioID}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> matricularMateria(Long materiaID, Long usuarioID) throws ClassNotFoundException {
 		JSONObject resp = new JSONObject();
+		if (materiaID == null || usuarioID == null) {
+			resp.put("error", "Datos nulos");
+			return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
+		}
+		Optional<Matricula> matricula = matriculaService.getMateriaMatriculada(materiaID, usuarioID);
+		if(matricula.isPresent()) {
+			resp.put("mensaje", "La materia ya se encuentra matriculada");
+			return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
+		}
 		Optional<Usuario> estudiante = usuarioService.getEstudiante(usuarioID);
 		Optional <Materia> materia = materiaService.getMateria(materiaID);
 		if(estudiante.isPresent() && materia.isPresent()) {
