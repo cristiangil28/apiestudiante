@@ -1,5 +1,6 @@
 package com.cristian.apiestudiante.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
-@Model
-public class Usuario {
+public class Usuario implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idusuario")

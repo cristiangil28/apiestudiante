@@ -1,5 +1,6 @@
 package com.cristian.apiestudiante.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.inject.Model;
@@ -16,8 +17,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "materia")
-@Model
-public class Materia {
+public class Materia implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_materia")
