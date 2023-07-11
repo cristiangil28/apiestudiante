@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cristian.apiestudiante.entities.Usuario;
 import com.cristian.apiestudiante.entities.Materia;
 import com.cristian.apiestudiante.services.MateriaService;
 

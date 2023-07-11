@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "materia")
 @Model
@@ -27,6 +29,7 @@ public class Materia {
 	@Column(name = "creditos")
 	private int creditos;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "materias", fetch = FetchType.LAZY)
 	private List<Usuario> estudiantes;
 
