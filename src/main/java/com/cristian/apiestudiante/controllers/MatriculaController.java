@@ -1,5 +1,6 @@
 package com.cristian.apiestudiante.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.json.JSONObject;
@@ -55,5 +56,10 @@ public class MatriculaController {
 		}
 		resp.put("mensaje", "Se matriculo correctamente la materia");
 		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "matricula/{usuarioID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Matricula> getMateriasMatriculadas(Long usuarioID){
+		return matriculaService.getMateriasMatriculadaEstudiante(usuarioID);
 	}
 }
