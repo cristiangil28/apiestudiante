@@ -43,7 +43,7 @@ public class MatriculaController {
 		}
 		Optional<Matricula> matricula = matriculaService.getMateriaMatriculada(materiaID, usuarioID);
 		if(matricula.isPresent()) {
-			resp.put("mensaje", "La materia ya se encuentra matriculada");
+			resp.put("error", "La materia ya se encuentra matriculada");
 			return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
 		}
 		Optional<Usuario> estudiante = usuarioService.getEstudiante(usuarioID);

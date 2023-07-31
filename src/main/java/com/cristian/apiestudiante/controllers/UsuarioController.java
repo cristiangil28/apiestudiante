@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,8 @@ public class UsuarioController {
 		}
 		
 		resp.put("mensaje", "El estudiante se creo con exito");
+		PasswordEncoder pass = new BCryptPasswordEncoder(); 
+		usuario.setPassword(pass.encode(usuario.getDocumento()));
 		usuarioService.crearEstudiante(usuario);
 	
 		return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
@@ -79,5 +83,28 @@ public class UsuarioController {
 		
 		resp.put("mensaje", "Se actualizó correctamente el estudiante");
 		return new ResponseEntity<>(resp.toString(),HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "login/{documento}/{password}", method = RequestMethod.GET)
+	public ResponseEntity<String> getUsuarioLogin(String documento, String password){
+		JSONObject respuesta = new JSONObject();
+		if((documento == null || documento.equals("")) || (password == null || password.equals(""))) {
+			respuesta.put("error", "El usuario y el password son obligatorios");
+			return new ResponseEntity<>(respuesta.toString(),HttpStatus.BAD_REQUEST);
+		}
+		Optional<Usuario> login = usuarioService.getEstudianteDocumento(documento);
+		
+		
+		if(login.isPresent()) {
+			PasswordEncoder pass = new BCryptPasswordEncoder(); 
+			ResponseEntity<String> resp = null;
+			if(pass.matches(password, login.get().getPassword())) {
+				respuesta.put("mensaje", "Usuario logueado");
+				resp = new ResponseEntity<>(respuesta.toString(), HttpStatus.OK);
+			}
+			return resp;
+		}else {
+			return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+		}
 	}
 }
