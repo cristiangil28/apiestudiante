@@ -86,25 +86,25 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "login/{documento}/{password}", method = RequestMethod.GET)
-	public ResponseEntity<String> getUsuarioLogin(String documento, String password){
+	public ResponseEntity<Usuario> getUsuarioLogin(String documento, String password){
 		JSONObject respuesta = new JSONObject();
 		if((documento == null || documento.equals("")) || (password == null || password.equals(""))) {
 			respuesta.put("error", "El usuario y el password son obligatorios");
-			return new ResponseEntity<>(respuesta.toString(),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		Optional<Usuario> login = usuarioService.getEstudianteDocumento(documento);
 		
 		
 		if(login.isPresent()) {
 			PasswordEncoder pass = new BCryptPasswordEncoder(); 
-			ResponseEntity<String> resp = null;
+			ResponseEntity<Usuario> resp = null;
 			if(pass.matches(password, login.get().getPassword())) {
 				respuesta.put("mensaje", "Usuario logueado");
-				resp = new ResponseEntity<>(respuesta.toString(), HttpStatus.OK);
+				resp = new ResponseEntity<>(login.get(), HttpStatus.OK);
 			}
 			return resp;
 		}else {
-			return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }
