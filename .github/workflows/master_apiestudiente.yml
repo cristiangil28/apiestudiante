@@ -55,5 +55,4 @@ jobs:
           app-name: 'apiestudiente'
           slot-name: 'Production'
           package: '*.jar'
-          task: PublishBuildArtifacts@1
           
