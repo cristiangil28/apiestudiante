@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.Model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +46,9 @@ public class Usuario implements Serializable{
 	
 	@Column(name = "documento", unique = true)
 	private String documento;
+	
+	@Column(name = "password")
+	private String Password;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "matricula", joinColumns = { @JoinColumn(name = "idusuario") }, inverseJoinColumns = {
@@ -133,6 +135,14 @@ public class Usuario implements Serializable{
 
 	public void setMaterias(List<Materia> materias) {
 		this.materias = materias;
+	}
+	
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
 	}
 
 	@Override

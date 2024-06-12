@@ -46,4 +46,8 @@ public class UsuarioService {
 		
 		return usuarioRepository.save(_estudiante);
 	}
+	
+	public Optional<Usuario> getUsuarioLogin(String documento, String password) {
+		return usuarioRepository.getUsuarioLogin(documento, password);
+	}
 }

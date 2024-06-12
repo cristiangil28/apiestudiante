@@ -17,4 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query(value = "select u.* from api_estudiante.usuario u where u.documento = ?1", nativeQuery = true)
 	Optional<Usuario>getUsuadioDocumento(String documento);
+	
+	@Query(value = "select u.* from api_estudiante.usuario u where u.documento = ?1 and u.password = ?2", nativeQuery = true)
+	Optional<Usuario>getUsuarioLogin(String documento, String password);
 }
